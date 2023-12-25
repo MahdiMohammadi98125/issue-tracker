@@ -1,7 +1,7 @@
 "use client";
 import { ErrorMessage } from "@/app/components";
 import Loader from "@/app/components/Loader";
-import { createIssueSchema } from "@/app/validationSchemas";
+import { IssueSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
 import { Button, Callout, TextField } from "@radix-ui/themes";
@@ -13,7 +13,7 @@ import { Controller, useForm } from "react-hook-form";
 import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof IssueSchema>;
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
   const {
@@ -21,7 +21,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<IssueFormData>({ resolver: zodResolver(createIssueSchema) });
+  } = useForm<IssueFormData>({ resolver: zodResolver(IssueSchema) });
   const router = useRouter();
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
