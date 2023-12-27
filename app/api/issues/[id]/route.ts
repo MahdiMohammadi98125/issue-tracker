@@ -1,5 +1,4 @@
 import { IssueSchema } from "@/app/validationSchemas";
-import delay from "delay";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
