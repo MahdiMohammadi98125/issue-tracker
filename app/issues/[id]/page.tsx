@@ -6,6 +6,7 @@ import DeleteIssueButton from "./DeleteIssueButton";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/api/auth/authOptions";
 import AssigneeSelect from "./AssigneeSelect";
+import { parseMutationArgs } from "@tanstack/react-query";
 
 interface Props {
   params: { id: string };
@@ -36,3 +37,13 @@ const IssueDetailPage = async ({ params }: Props) => {
 };
 
 export default IssueDetailPage;
+
+export async function generateMetadata({ params }: Props) {
+  const issue = await prisma?.issue.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+  return {
+    title: issue?.title,
+    description: `description about ${issue?.id}`,
+  };
+}
