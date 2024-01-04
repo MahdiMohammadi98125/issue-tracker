@@ -19,6 +19,7 @@ export const POST = async (request: NextRequest) => {
     data: {
       title: body.title,
       description: body.description,
+      status: body.status,
     },
   });
 

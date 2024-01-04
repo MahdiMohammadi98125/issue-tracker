@@ -12,6 +12,7 @@ interface Props {
 
 const IssuesPage = async ({ searchParams }: Props) => {
   const statuses = Object.values(Status);
+
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
     : undefined;
@@ -30,6 +31,8 @@ const IssuesPage = async ({ searchParams }: Props) => {
     skip: (page - 1) * pageSize,
     take: pageSize,
   });
+
+  if (issueCount === 0) return null;
 
   return (
     <Flex gap="3" direction="column">
