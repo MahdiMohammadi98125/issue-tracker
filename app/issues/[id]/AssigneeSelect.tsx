@@ -1,4 +1,5 @@
 "use client";
+
 import { Skeleton } from "@/app/components";
 import { Issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
@@ -9,32 +10,33 @@ import toast, { Toaster } from "react-hot-toast";
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   const { data: users, error, isLoading } = useUsers();
 
-  const assignUser = async (userId: string) => {
+  if (isLoading) return <Skeleton />;
+
+  if (error) return null;
+
+  const assignIssue = (userId: string) => {
     axios
       .patch("/api/issues/" + issue.id, {
         assignedToUserId: userId || null,
       })
-      .catch(() =>
-        toast.error("Something went wrong, changes will not be save!")
-      );
+      .catch(() => {
+        toast.error("Changes could not be saved.");
+      });
   };
-
-  if (error) return null;
-  if (isLoading) return <Skeleton />;
 
   return (
     <>
       <Select.Root
-        defaultValue={issue.assignedToUserId || "empty"}
-        onValueChange={assignUser}
+        defaultValue={issue.assignedToUserId || ""}
+        onValueChange={assignIssue}
       >
         <Select.Trigger placeholder="Assign..." />
         <Select.Content>
           <Select.Group>
-            <Select.Label>Suggestion</Select.Label>
-            <Select.Item value="empty">Unassigned</Select.Item>
+            <Select.Label>Suggestions</Select.Label>
+            <Select.Item value="">Unassigned</Select.Item>
             {users?.map((user) => (
-              <Select.Item value={user.id} key={user.id}>
+              <Select.Item key={user.id} value={user.id}>
                 {user.name}
               </Select.Item>
             ))}
@@ -49,8 +51,9 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
 const useUsers = () =>
   useQuery<User[]>({
     queryKey: ["users"],
-    queryFn: () => axios.get("/api/users").then((res) => res.data),
-    staleTime: 60 * 1000, // 60s
+    queryFn: () =>
+      axios.get("/api/users").then((res) => res.data),
+    staleTime: 60 * 1000, //60s
     retry: 3,
   });
 

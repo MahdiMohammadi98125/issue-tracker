@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-const Loader = () => {
+const Spinner = () => {
   return (
     <div
       className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
@@ -13,4 +13,4 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export default Spinner;

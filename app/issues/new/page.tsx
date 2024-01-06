@@ -1,13 +1,18 @@
 import dynamic from "next/dynamic";
-import IssueFormSkeleton from "../_components/IssueFormSkeleton";
+import IssueFormSkeleton from "./loading";
 
-const IssueForm = dynamic(() => import("../_components/IssueForm"), {
-  ssr: false,
-  loading: () => <IssueFormSkeleton />,
-});
+const IssueForm = dynamic(
+  () => import('@/app/issues/_components/IssueForm'),
+  { 
+    ssr: false,
+    loading: () => <IssueFormSkeleton />
+  }
+);
 
 const NewIssuePage = () => {
-  return <IssueForm />;
-};
+  return (
+    <IssueForm />
+  )
+}
 
-export default NewIssuePage;
+export default NewIssuePage
