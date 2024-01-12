@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Spinner } from ".";
+import { Spinner } from "./index";
 
 const RegisterForm = () => {
   const [name, setName] = useState("");
